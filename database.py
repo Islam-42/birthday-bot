@@ -2,7 +2,7 @@ import aiosqlite
 
 
 async def init_db():
-    db = await aiosqlite.connect("birthdays.db")
+    db = await aiosqlite.connect("/data/birthdays.db")
 
     await db.execute("""
         CREATE TABLE IF NOT EXISTS birthdays (
@@ -28,7 +28,7 @@ async def init_db():
 
 
 async def add_birthday(user_id, name, day, month):
-    db = await aiosqlite.connect("birthdays.db")
+    db = await aiosqlite.connect("/data/birthdays.db")
 
     await db.execute(
         """
@@ -43,7 +43,7 @@ async def add_birthday(user_id, name, day, month):
 
 
 async def get_birthdays(user_id):
-    db = await aiosqlite.connect("birthdays.db")
+    db = await aiosqlite.connect("/data/birthdays.db")
 
     cursor = await db.execute(
         """
@@ -63,7 +63,7 @@ async def get_birthdays(user_id):
 
 
 async def get_all_birthdays():
-    db = await aiosqlite.connect("birthdays.db")
+    db = await aiosqlite.connect("/data/birthdays.db")
 
     cursor = await db.execute(
         """
@@ -80,7 +80,7 @@ async def get_all_birthdays():
 
 
 async def delete_birthday(user_id, birthday_id):
-    db = await aiosqlite.connect("birthdays.db")
+    db = await aiosqlite.connect("/data/birthdays.db")
 
     await db.execute(
         """
@@ -95,7 +95,7 @@ async def delete_birthday(user_id, birthday_id):
 
 
 async def update_birthday(user_id, birthday_id, name, day, month):
-    db = await aiosqlite.connect("birthdays.db")
+    db = await aiosqlite.connect("/data/birthdays.db")
 
     await db.execute(
         """
@@ -112,7 +112,7 @@ async def update_birthday(user_id, birthday_id, name, day, month):
 
 
 async def reminder_was_sent(birthday_id, reminder_date):
-    db = await aiosqlite.connect("birthdays.db")
+    db = await aiosqlite.connect("/data/birthdays.db")
 
     cursor = await db.execute(
         """
@@ -132,7 +132,7 @@ async def reminder_was_sent(birthday_id, reminder_date):
 
 
 async def save_sent_reminder(birthday_id, reminder_date):
-    db = await aiosqlite.connect("birthdays.db")
+    db = await aiosqlite.connect("/data/birthdays.db")
 
     await db.execute(
         """
