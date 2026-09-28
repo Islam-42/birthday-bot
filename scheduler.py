@@ -38,30 +38,57 @@ async def check_birthdays(bot):
             birthday_date - today
         ).days
 
-        if days_left not in (1, 3, 7):
-            continue
+        # Напоминания за 7, 3 и 1 день
+        if days_left in (1, 3, 7):
 
-        reminder_key = (
-            f"{birthday_date.isoformat()}_{days_left}"
-        )
+            reminder_key = (
+                f"{birthday_date.isoformat()}_{days_left}"
+            )
 
-        already_sent = await reminder_was_sent(
-            birthday_id,
-            reminder_key
-        )
+            already_sent = await reminder_was_sent(
+                birthday_id,
+                reminder_key
+            )
 
-        if already_sent:
-            continue
+            if already_sent:
+                continue
 
-        await bot.send_message(
-            user_id,
-            f"🔔 Напоминание!\n\n"
-            f"🎂 {name} — "
-            f"день рождения через "
-            f"{days_left} дн."
-        )
+            await bot.send_message(
+                user_id,
+                f"🔔 Напоминание!\n\n"
+                f"🎂 {name} — "
+                f"день рождения через "
+                f"{days_left} дн."
+            )
 
-        await save_sent_reminder(
-            birthday_id,
-            reminder_key
-        )
+            await save_sent_reminder(
+                birthday_id,
+                reminder_key
+            )
+
+        # Напоминание в сам день рождения
+        elif days_left == 0:
+
+            reminder_key = (
+                f"{birthday_date.isoformat()}_today"
+            )
+
+            already_sent = await reminder_was_sent(
+                birthday_id,
+                reminder_key
+            )
+
+            if already_sent:
+                continue
+
+            await bot.send_message(
+                user_id,
+                f"🎉 Сегодня день рождения!\n\n"
+                f"🎂 У {name} сегодня день рождения!\n"
+                f"Не забудь поздравить! 🥳"
+            )
+
+            await save_sent_reminder(
+                birthday_id,
+                reminder_key
+            )
